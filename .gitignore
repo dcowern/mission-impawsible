@@ -1,0 +1,52 @@
+# Godot 4.x
+.godot/
+*.translation
+
+# Godot exports
+*.pck
+*.exe
+*.x86_64
+*.x86_32
+*.arm64
+*.arm32
+*.apk
+*.aab
+*.ipa
+*.dmg
+*.app
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE / editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude Code local settings
+.claude/
+
+# Secrets and credentials
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.keystore
+*.jks
+credentials.*
+secret*
+
+# Android signing
+*.keystore
+debug.keystore
+release.keystore
+
+# Build artifacts
+build/
+export/
+dist/

@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://bobptjap2ur63"
+path="res://.godot/imported/creature_mouse.dialogue-fdafe969afb407c5ec22fdb0362e6e29.tres"
+
+[deps]
+
+source_file="res://dialogue/creature_mouse.dialogue"
+dest_files=["res://.godot/imported/creature_mouse.dialogue-fdafe969afb407c5ec22fdb0362e6e29.tres"]
+
+[params]
+
+defaults=true

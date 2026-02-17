@@ -1,0 +1,16 @@
+~ greeting
+
+Mouse: *squeak* A cat! A talking cat! Don't eat me!
+Mouse: Wait... you're different. You have the old magic.
+- I won't hurt you. What do you know about underground paths?
+	Mouse: The tunnels! Yes, we mice know every tunnel under these lands.
+	Mouse: There's a passage beneath the forest that leads to a hidden chamber.
+	Mouse: Tuna coins are scattered down there, forgotten by everyone.
+	=> END
+- Tell me about the forest.
+	Mouse: The forest is deep and old. Woodland magic is strongest there.
+	Mouse: The vines remember the old ways. If you have woodland magic, they'll help you.
+	=> END
+- Goodbye, little one.
+	Mouse: *squeak* Be careful out there, cat-friend!
+	=> END

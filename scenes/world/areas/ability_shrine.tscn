@@ -1,0 +1,91 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scenes/world/areas/ability_shrine.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_dungeon/pillar_decorated.gltf.glb" id="2_pillar"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_dungeon/column.gltf.glb" id="3_column"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_dungeon/torch_lit.gltf.glb" id="4_torch"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_dungeon/candle_lit.gltf.glb" id="5_candle"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ability_unlock_ui.tscn" id="6_unlock_ui"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_altar"]
+top_radius = 1.0
+bottom_radius = 1.2
+height = 0.6
+radial_segments = 8
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_interact"]
+radius = 8.0
+
+; ============================================================
+; Ability Shrine — ancient stone circle with central altar
+; 5 pillars arranged in a pentagon, representing the 5 disciplines
+; ============================================================
+[node name="AbilityShrine" type="Node3D"]
+script = ExtResource("1_script")
+
+; --- Central altar pedestal ---
+[node name="Altar" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("CylinderMesh_altar")
+
+; --- 5 Pillars in a circle (radius ~5m, pentagon layout) ---
+; Fire pillar (front)
+[node name="PillarFire" parent="." instance=ExtResource("2_pillar")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, -5)
+
+; Ice pillar (front-right)
+[node name="PillarIce" parent="." instance=ExtResource("2_pillar")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 4.75, 0, -1.55)
+
+; Woodland pillar (back-right)
+[node name="PillarWoodland" parent="." instance=ExtResource("2_pillar")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 2.94, 0, 4.05)
+
+; Dragon Taming pillar (back-left)
+[node name="PillarDragonTaming" parent="." instance=ExtResource("2_pillar")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -2.94, 0, 4.05)
+
+; Creature Speak pillar (front-left)
+[node name="PillarCreatureSpeak" parent="." instance=ExtResource("2_pillar")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -4.75, 0, -1.55)
+
+; --- Torches between pillars ---
+[node name="Torch1" parent="." instance=ExtResource("4_torch")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 2.5, 0, -3.5)
+
+[node name="Torch2" parent="." instance=ExtResource("4_torch")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 4.0, 0, 1.5)
+
+[node name="Torch3" parent="." instance=ExtResource("4_torch")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 5.0)
+
+[node name="Torch4" parent="." instance=ExtResource("4_torch")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -4.0, 0, 1.5)
+
+[node name="Torch5" parent="." instance=ExtResource("4_torch")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -2.5, 0, -3.5)
+
+; --- Candles on altar ---
+[node name="Candle1" parent="." instance=ExtResource("5_candle")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.3, 0.6, 0.3)
+
+[node name="Candle2" parent="." instance=ExtResource("5_candle")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -0.3, 0.6, -0.3)
+
+; --- Columns flanking the entrance ---
+[node name="EntranceColumnL" parent="." instance=ExtResource("3_column")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -3, 0, -7)
+
+[node name="EntranceColumnR" parent="." instance=ExtResource("3_column")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 3, 0, -7)
+
+; --- Interaction trigger area (8m radius) ---
+[node name="InteractArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea"]
+shape = SubResource("SphereShape3D_interact")
+
+; --- Ability Unlock UI ---
+[node name="AbilityUnlockUI" parent="." instance=ExtResource("6_unlock_ui")]

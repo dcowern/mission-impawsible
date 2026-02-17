@@ -1,0 +1,94 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/touch_controls.gd" id="1_script"]
+
+; ============================================================
+; Touch Controls — mobile overlay with virtual joystick + buttons
+; ============================================================
+[node name="TouchControls" type="CanvasLayer"]
+layer = 15
+script = ExtResource("1_script")
+
+; Virtual Joystick — bottom left
+[node name="JoystickBase" type="Control" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -220.0
+offset_right = 200.0
+offset_bottom = -60.0
+grow_vertical = 0
+
+[node name="JoystickBG" type="ColorRect" parent="JoystickBase"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.15)
+
+[node name="JoystickKnob" type="Control" parent="JoystickBase"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="KnobVisual" type="ColorRect" parent="JoystickBase/JoystickKnob"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.4)
+
+; Jump Button — bottom right
+[node name="JumpButton" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -140.0
+offset_top = -140.0
+offset_right = -60.0
+offset_bottom = -60.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "JUMP"
+
+; Interact Button — center right
+[node name="InteractButton" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -140.0
+offset_top = -220.0
+offset_right = -60.0
+offset_bottom = -160.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "USE"
+
+; Menu Button — top right
+[node name="MenuButton" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -80.0
+offset_top = 10.0
+offset_bottom = 50.0
+grow_horizontal = 0
+text = "MENU"

@@ -1,0 +1,82 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scenes/world/areas/starting_village.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_medieval/building_stage_A.gltf" id="2_building_a"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_medieval/building_stage_B.gltf" id="3_building_b"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_medieval/building_stage_C.gltf" id="4_building_c"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_medieval/building_grain.gltf" id="5_grain"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_medieval/barrel.gltf" id="6_barrel"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_medieval/crate_A_big.gltf" id="7_crate"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_medieval/tent.gltf" id="8_tent"]
+[ext_resource type="PackedScene" path="res://assets/models/kaykit_medieval/bucket_water.gltf" id="9_well"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_nature/tree_oak.glb" id="10_tree"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_nature/fence_simple.glb" id="11_fence"]
+
+; ============================================================
+; Starting Village — Central hub in the Central Plains
+; Buildings arranged around a central open area
+; ============================================================
+[node name="StartingVillage" type="Node3D"]
+script = ExtResource("1_script")
+
+; --- Central open area marker ---
+[node name="VillageCenter" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+; --- Building 1: Main hall (north side) ---
+[node name="MainHall" parent="." instance=ExtResource("2_building_a")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, -15)
+
+; --- Building 2: Secondary building (east side) ---
+[node name="Workshop" parent="." instance=ExtResource("3_building_b")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 12, 0, -5)
+
+; --- Building 3: Small building (west side) ---
+[node name="StorageHut" parent="." instance=ExtResource("4_building_c")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -12, 0, -5)
+
+; --- Building 4: Granary (south-east) ---
+[node name="Granary" parent="." instance=ExtResource("5_grain")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 10, 0, 10)
+
+; --- Building 5: Market tent (south-west) ---
+[node name="MarketTent" parent="." instance=ExtResource("8_tent")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -10, 0, 8)
+
+; --- Props: barrels near granary ---
+[node name="Barrel1" parent="." instance=ExtResource("6_barrel")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 8, 0, 12)
+
+[node name="Barrel2" parent="." instance=ExtResource("6_barrel")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 7, 0, 13)
+
+; --- Props: crates near workshop ---
+[node name="Crate1" parent="." instance=ExtResource("7_crate")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 14, 0, -3)
+
+[node name="Crate2" parent="." instance=ExtResource("7_crate")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 14, 0, -1)
+
+; --- Well in center ---
+[node name="WellBucket" parent="." instance=ExtResource("9_well")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 2, 0, 2)
+
+; --- Trees around village perimeter ---
+[node name="Tree1" parent="." instance=ExtResource("10_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, -20)
+
+[node name="Tree2" parent="." instance=ExtResource("10_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, -18)
+
+[node name="Tree3" parent="." instance=ExtResource("10_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, 15)
+
+[node name="Tree4" parent="." instance=ExtResource("10_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 0, 12)
+
+; --- Fences along south path ---
+[node name="Fence1" parent="." instance=ExtResource("11_fence")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 18)
+
+[node name="Fence2" parent="." instance=ExtResource("11_fence")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 18)

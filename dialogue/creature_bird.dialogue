@@ -1,0 +1,15 @@
+~ greeting
+
+Bird: *chirp chirp* You... you can understand me?
+Bird: Amazing! No one has spoken our language in ages.
+- What can you see from up high?
+	Bird: I fly over the whole land. The mountains to the north hide ancient secrets.
+	Bird: I've seen strange lights near the Alpine Peaks. Dragons guard something there.
+	=> END
+- Have you heard of the gem?
+	Bird: The gem? The old ones sang of it. A brilliant light that made the world turn.
+	Bird: Some say it's hidden where the five elements meet.
+	=> END
+- Just passing through.
+	Bird: *chirp* Come back anytime!
+	=> END

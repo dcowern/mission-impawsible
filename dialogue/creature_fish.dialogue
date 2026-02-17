@@ -1,0 +1,16 @@
+~ greeting
+
+Fish: *blub blub* You speak the water tongue? Remarkable!
+Fish: Few cats ever learned this art, even in the old days.
+- What secrets do the waters hold?
+	Fish: The river carries memories. It flows from the mountains where ice magic was born.
+	Fish: Deep beneath the ocean, there is an ancient structure. I've seen its glow.
+	Fish: Perhaps it holds a clue to the gem you seek.
+	=> END
+- What happened when the magic disappeared?
+	Fish: The water grew cold and still. The currents lost their song.
+	Fish: We fish felt it most of all — the silence where music used to be.
+	=> END
+- Thank you, fish.
+	Fish: *blub* May the currents guide you, gem-blooded one.
+	=> END

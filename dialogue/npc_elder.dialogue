@@ -1,0 +1,48 @@
+~ awakening
+
+Elder Cat: Ah, young one. Come closer. I have been waiting for you.
+Elder Cat: You feel it, don't you? That stirring in your blood?
+Elder Cat: Let me tell you a story...
+
+~ lore
+
+Elder Cat: There used to be cats that had magic abilities: fire, ice, woodland, dragon taming, and speaking with different creatures.
+Elder Cat: Suddenly the Earth began to shake.
+Elder Cat: The Earth stopped spinning and then the cats that had magic had no more magic because the gem that the cats harnessed the magic from had disappeared.
+Elder Cat: Since then no one has had magic - until now.
+Elder Cat: You have the gem blood running through your veins.
+Elder Cat: You have been chosen to find the gem.
+
+~ coins
+
+Elder Cat: You got two tuna coins. You can use the tuna coins to level up your powers.
+Elder Cat: Seek out the Ability Shrine to the east. There you can channel your coins into magical discipline.
+Elder Cat: But first... I sense a greater purpose calls you.
+
+~ quest_start
+
+Elder Cat: An ancient scroll lies hidden in the ruins to the north.
+Elder Cat: It contains the first clue to the gem's resting place.
+Elder Cat: Find the scroll and bring it back to me. Only then can we begin to unravel this mystery.
+- I'll find the scroll.
+	Elder Cat: Go with caution, young one. The world beyond the village is not as safe as it once was.
+	=> END
+- Tell me more about the magic.
+	Elder Cat: Each discipline draws from a different aspect of the gem's power.
+	Elder Cat: Fire burns with passion. Ice preserves with patience. Woodland grows with wisdom.
+	Elder Cat: Dragon taming requires courage. And speaking with creatures... that requires empathy.
+	Elder Cat: Master them all, and you may yet restore what was lost.
+	=> quest_start
+
+~ quest_complete
+
+Elder Cat: You found the scroll! Let me see...
+Elder Cat: Yes... these markings describe five trials, one for each magical discipline.
+Elder Cat: Complete the trials, and the gem's location will be revealed.
+Elder Cat: The trials are scattered across the land. You must seek them out.
+=> END
+
+~ ambient
+
+Elder Cat: The gem calls to those with the blood. You are special, young one.
+=> END

@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://bo06ud0bv0fva"
+path="res://.godot/imported/npc_villager.dialogue-83c4cbbfa0e3a4d818f75a344ba5929f.tres"
+
+[deps]
+
+source_file="res://dialogue/npc_villager.dialogue"
+dest_files=["res://.godot/imported/npc_villager.dialogue-83c4cbbfa0e3a4d818f75a344ba5929f.tres"]
+
+[params]
+
+defaults=true

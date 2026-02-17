@@ -1,0 +1,313 @@
+[gd_scene load_steps=29 format=3]
+
+[ext_resource type="Script" path="res://scenes/world/world_setup.gd" id="1_setup"]
+[ext_resource type="PackedScene" path="res://scenes/player/cat_player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://addons/boujie_water_shader/prefabs/deep_ocean.tscn" id="3_ocean"]
+[ext_resource type="Script" path="res://scenes/world/sky_bridge.gd" id="4_skybridge"]
+[ext_resource type="Shader" path="res://resources/shaders/river_water.gdshader" id="5_rivershader"]
+[ext_resource type="PackedScene" path="res://scenes/world/areas/starting_village.tscn" id="6_village"]
+[ext_resource type="PackedScene" path="res://scenes/world/areas/ability_shrine.tscn" id="7_shrine"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/tuna_coin_pickup.tscn" id="8_coin"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_nature/tree_default.glb" id="9_tree_default"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_nature/tree_oak.glb" id="10_tree_oak"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_nature/plant_bushLarge.glb" id="11_bush"]
+[ext_resource type="PackedScene" path="res://scenes/ui/tuna_coin_display.tscn" id="12_coin_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ability_hud.tscn" id="13_ability_hud"]
+[ext_resource type="Script" path="res://scenes/npcs/cat_npc.gd" id="14_cat_npc"]
+[ext_resource type="Script" path="res://scenes/npcs/dragon_npc.gd" id="15_dragon_npc"]
+[ext_resource type="Script" path="res://scenes/npcs/creature_npc.gd" id="16_creature_npc"]
+[ext_resource type="Script" path="res://scenes/quests/quest_manager.gd" id="17_quest_mgr"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_balloon.tscn" id="18_dialogue_balloon"]
+[ext_resource type="PackedScene" path="res://scenes/ui/touch_controls.tscn" id="19_touch_controls"]
+[ext_resource type="Script" path="res://scenes/ui/platform_settings.gd" id="20_platform_settings"]
+[ext_resource type="PackedScene" path="res://scenes/ui/tutorial_manager.tscn" id="21_tutorial"]
+[ext_resource type="PackedScene" path="res://scenes/ui/credits_screen.tscn" id="22_credits"]
+
+[sub_resource type="Terrain3DAssets" id="Terrain3DAssets_main"]
+
+[sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_main"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_river"]
+shader = ExtResource("5_rivershader")
+shader_parameter/water_color = Color(0.1, 0.3, 0.5, 0.75)
+shader_parameter/foam_color = Color(0.8, 0.9, 1.0, 0.5)
+shader_parameter/flow_speed = 0.5
+shader_parameter/flow_direction_degrees = 180.0
+shader_parameter/wave_scale = 2.0
+shader_parameter/wave_height = 0.1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_river"]
+size = Vector2(30, 2000)
+subdivide_width = 4
+subdivide_depth = 40
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lake"]
+size = Vector2(200, 300)
+subdivide_width = 8
+subdivide_depth = 12
+
+; ============================================================
+; Root — World Scene
+; ============================================================
+[node name="World" type="Node3D"]
+script = ExtResource("1_setup")
+
+; ============================================================
+; Terrain3D — 16km × 16km world terrain
+; ============================================================
+[node name="Terrain3D" type="Terrain3D" parent="."]
+data_directory = "res://terrain/data"
+vertex_spacing = 4.0
+assets = SubResource("Terrain3DAssets_main")
+material = SubResource("Terrain3DMaterial_main")
+
+; ============================================================
+; Sky3D — Atmospheric Day/Night Cycle
+; ============================================================
+[node name="Sky3D" type="Node3D" parent="."]
+
+[node name="TimeOfDay" type="Node" parent="Sky3D"]
+
+[node name="SkyDome" type="Node3D" parent="Sky3D"]
+
+[node name="SunLight" type="DirectionalLight3D" parent="Sky3D"]
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="MoonLight" type="DirectionalLight3D" parent="Sky3D"]
+light_energy = 0.3
+shadow_enabled = true
+
+; ============================================================
+; Ocean — at sea level (Y=0), visible from coast
+; ============================================================
+[node name="Ocean" parent="." instance=ExtResource("3_ocean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+; ============================================================
+; Sky Bridge — connects Sky3D signals to game SignalBus
+; ============================================================
+[node name="SkyBridge" type="Node" parent="."]
+script = ExtResource("4_skybridge")
+sky3d_path = NodePath("../Sky3D")
+
+; ============================================================
+; River — UV-scrolling water along the southwest valley
+; ============================================================
+[node name="River" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2457, 38, 2000)
+mesh = SubResource("PlaneMesh_river")
+surface_material_override/0 = SubResource("ShaderMaterial_river")
+
+; ============================================================
+; Lake — calm water in the forest depression (west)
+; ============================================================
+[node name="ForestLake" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3500, 115, -1000)
+mesh = SubResource("PlaneMesh_lake")
+surface_material_override/0 = SubResource("ShaderMaterial_river")
+
+; ============================================================
+; Highland Lake — in the meadow (northeast)
+; ============================================================
+[node name="HighlandLake" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2000, 130, -2500)
+mesh = SubResource("PlaneMesh_lake")
+surface_material_override/0 = SubResource("ShaderMaterial_river")
+
+; ============================================================
+; Starting Village — player spawn area
+; Village at Central Plains center, slightly south of spawn
+; ============================================================
+[node name="StartingVillage" parent="." instance=ExtResource("6_village")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 80, 20)
+
+; ============================================================
+; Ability Shrine — ancient stone circle, short walk east of village
+; ============================================================
+[node name="AbilityShrine" parent="." instance=ExtResource("7_shrine")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 120, 82, -50)
+
+; ============================================================
+; Tuna Coins — 8 scattered across Central Plains
+; ============================================================
+[node name="TunaCoins" type="Node3D" parent="."]
+
+[node name="Coin1" parent="TunaCoins" instance=ExtResource("8_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 82, 40)
+
+[node name="Coin2" parent="TunaCoins" instance=ExtResource("8_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 83, -30)
+
+[node name="Coin3" parent="TunaCoins" instance=ExtResource("8_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 81, 60)
+
+[node name="Coin4" parent="TunaCoins" instance=ExtResource("8_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90, 84, 100)
+
+[node name="Coin5" parent="TunaCoins" instance=ExtResource("8_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150, 83, -20)
+
+[node name="Coin6" parent="TunaCoins" instance=ExtResource("8_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -120, 85, -80)
+
+[node name="Coin7" parent="TunaCoins" instance=ExtResource("8_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 82, 120)
+
+[node name="Coin8" parent="TunaCoins" instance=ExtResource("8_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 81, 150)
+
+; ============================================================
+; Scattered Trees — solitary trees and copses in Central Plains
+; (sparse — this is open plains, not forest)
+; ============================================================
+[node name="ScatteredTrees" type="Node3D" parent="."]
+
+[node name="Tree01" parent="ScatteredTrees" instance=ExtResource("9_tree_default")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -60, 83, -50)
+
+[node name="Tree02" parent="ScatteredTrees" instance=ExtResource("10_tree_oak")]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 100, 81, 80)
+
+[node name="Tree03" parent="ScatteredTrees" instance=ExtResource("9_tree_default")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, -150, 85, 60)
+
+[node name="Tree04" parent="ScatteredTrees" instance=ExtResource("10_tree_oak")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 180, 82, -100)
+
+[node name="Tree05" parent="ScatteredTrees" instance=ExtResource("9_tree_default")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -200, 84, -120)
+
+[node name="Tree06" parent="ScatteredTrees" instance=ExtResource("10_tree_oak")]
+transform = Transform3D(2.3, 0, 0, 0, 2.3, 0, 0, 0, 2.3, 50, 80, 180)
+
+[node name="Tree07" parent="ScatteredTrees" instance=ExtResource("9_tree_default")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -80, 82, 200)
+
+[node name="Tree08" parent="ScatteredTrees" instance=ExtResource("10_tree_oak")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 250, 83, 50)
+
+; --- Bushes scattered around ---
+[node name="Bush01" parent="ScatteredTrees" instance=ExtResource("11_bush")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -40, 82, 30)
+
+[node name="Bush02" parent="ScatteredTrees" instance=ExtResource("11_bush")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 70, 81, -40)
+
+[node name="Bush03" parent="ScatteredTrees" instance=ExtResource("11_bush")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -130, 84, 70)
+
+[node name="Bush04" parent="ScatteredTrees" instance=ExtResource("11_bush")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 160, 82, 130)
+
+; ============================================================
+; Tuna Coin HUD — persistent coin counter
+; ============================================================
+[node name="TunaCoinDisplay" parent="." instance=ExtResource("12_coin_hud")]
+
+; ============================================================
+; Ability HUD — 5 ability slots at bottom center
+; ============================================================
+[node name="AbilityHUD" parent="." instance=ExtResource("13_ability_hud")]
+
+; ============================================================
+; Cat NPCs — friendly village cats
+; ============================================================
+[node name="ElderCat" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 81, 25)
+script = ExtResource("14_cat_npc")
+npc_id = "elder_cat"
+is_quest_giver = true
+dialogue_id = "npc_elder"
+
+[node name="VillageCat1" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 81, 18)
+script = ExtResource("14_cat_npc")
+npc_id = "village_cat_1"
+dialogue_id = "npc_villager"
+
+[node name="VillageCat2" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 81, 30)
+script = ExtResource("14_cat_npc")
+npc_id = "village_cat_2"
+dialogue_id = "npc_villager"
+
+; ============================================================
+; Dragon NPCs — in the foothills/alpine area (north)
+; ============================================================
+[node name="Dragon1" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 500, 400, -3000)
+script = ExtResource("15_dragon_npc")
+npc_id = "dragon_1"
+aggro_range = 15.0
+
+[node name="Dragon2" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 700, 450, -3500)
+script = ExtResource("15_dragon_npc")
+npc_id = "dragon_2"
+aggro_range = 20.0
+
+; ============================================================
+; Speakable Creatures — scattered through biomes
+; ============================================================
+[node name="Bird1" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 82, 10)
+script = ExtResource("16_creature_npc")
+npc_id = "bird_1"
+creature_type = "bird"
+knowledge_type = "far_sight"
+dialogue_id = "creature_bird"
+
+[node name="Mouse1" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2500, 100, 1000)
+script = ExtResource("16_creature_npc")
+npc_id = "mouse_1"
+creature_type = "mouse"
+knowledge_type = "underground"
+dialogue_id = "creature_mouse"
+
+[node name="Fish1" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 1, -300)
+script = ExtResource("16_creature_npc")
+npc_id = "fish_1"
+creature_type = "fish"
+knowledge_type = "water"
+dialogue_id = "creature_fish"
+
+; ============================================================
+; Quest Manager
+; ============================================================
+[node name="QuestManager" type="Node" parent="."]
+script = ExtResource("17_quest_mgr")
+
+; ============================================================
+; Dialogue Balloon
+; ============================================================
+[node name="DialogueBalloon" parent="." instance=ExtResource("18_dialogue_balloon")]
+
+; ============================================================
+; Touch Controls — mobile overlay (auto-hides on desktop)
+; ============================================================
+[node name="TouchControls" parent="." instance=ExtResource("19_touch_controls")]
+
+; ============================================================
+; Platform Settings — mobile optimizations
+; ============================================================
+[node name="PlatformSettings" type="Node" parent="."]
+script = ExtResource("20_platform_settings")
+
+; ============================================================
+; Tutorial — contextual onboarding
+; ============================================================
+[node name="TutorialManager" parent="." instance=ExtResource("21_tutorial")]
+
+; ============================================================
+; Credits Screen
+; ============================================================
+[node name="CreditsScreen" parent="." instance=ExtResource("22_credits")]
+
+; ============================================================
+; Player — spawns in Central Plains (near village)
+; ============================================================
+[node name="CatPlayer" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 85, 0)

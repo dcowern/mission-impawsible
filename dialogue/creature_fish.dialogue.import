@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://caeppy3wxb66g"
+path="res://.godot/imported/creature_fish.dialogue-5afef42db3607488097404d344def8be.tres"
+
+[deps]
+
+source_file="res://dialogue/creature_fish.dialogue"
+dest_files=["res://.godot/imported/creature_fish.dialogue-5afef42db3607488097404d344def8be.tres"]
+
+[params]
+
+defaults=true

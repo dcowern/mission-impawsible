@@ -1,0 +1,19 @@
+~ greeting
+
+Villager: Welcome, traveler! It's not often we see new faces in the village.
+- What is this place?
+	Villager: This is the starting village, home to the last cats who remember the old magic.
+	Villager: The Elder knows more than anyone. You should speak with them.
+	=> END
+- Have you seen any tuna coins?
+	Villager: Tuna coins? They're scattered all over the plains.
+	Villager: Keep your eyes open — they glint in the sunlight.
+	=> END
+- Goodbye.
+	Villager: Safe travels!
+	=> END
+
+~ ambient
+
+Villager: Beautiful day, isn't it? Well, as beautiful as it gets without the gem's light.
+=> END
